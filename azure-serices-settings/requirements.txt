@@ -1,0 +1,2 @@
+python-dotenv~=1.0.1
+azure-ai-textanalytics~=5.2.0
