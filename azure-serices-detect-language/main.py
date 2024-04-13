@@ -29,11 +29,10 @@ def authenticate_client():
     return text_analytics_client
 
 
-client = authenticate_client()
-
-
 # Example method for detecting the language of text
-def language_detection_example(client):
+def language_detection_example():
+    client = authenticate_client()
+
     try:
         input_text = ''
         while input_text.lower() != 'exit':
@@ -50,6 +49,6 @@ def language_detection_example(client):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    language_detection_example(client)
+    language_detection_example()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
