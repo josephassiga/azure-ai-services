@@ -22,6 +22,6 @@ rad.json
 TestResults.xml
 # Jetbrens folder
 */.idea/
-azure-serices-detect-language/app-settings.env
-azure-serices-detect-language/.idea/azure-serices-settings.iml
-azure-serices-detect-language/.idea/misc.xml
+azure-services-detect-language/app-settings.env
+azure-services-detect-language/.idea/azure-serices-settings.iml
+azure-services-detect-language/.idea/misc.xml
