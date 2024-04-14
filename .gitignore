@@ -20,3 +20,9 @@ rad.json
 *.flf
 #Test results file
 TestResults.xml
+# Jetbrens folder
+*/.idea/
+**/app-settings.env
+azure-serices-detect-language/app-settings.env
+azure-serices-detect-language/.idea/azure-serices-settings.iml
+azure-serices-detect-language/.idea/misc.xml

@@ -36,7 +36,7 @@ def language_detection_example():
     try:
         input_text = ''
         while input_text.lower() != 'exit':
-            input_text = str(input("Enter some text ('exit' to stop) :"))
+            input_text = str(input("Enter some text ('exit' to stop) : "))
             documents = []
             if input_text.lower() != 'exit':
                 documents.append(input_text.lower())
