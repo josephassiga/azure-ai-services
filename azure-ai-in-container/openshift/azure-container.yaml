@@ -1,0 +1,103 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    openshift.io/description: Azure AI Demo in a container
+    openshift.io/display-name: 'Azure AI Demo '
+  labels:
+    kubernetes.io/metadata.name: azure-ai-demo
+  name: azure-ai-demo
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: language
+  namespace: azure-ai-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: language
+  template:
+    metadata:
+      labels:
+        app: language
+    spec:
+      containers:
+        - name: language
+          image: mcr.microsoft.com/azure-cognitive-services/textanalytics/language:3.0.58166773-onprem-amd64
+          env:
+            - name: ApiKey
+              value: ""
+            - name: Billing
+              value: ""
+            - name: Eula
+              value: accept
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: 1
+              memory: 12Gi
+            requests:
+              cpu: 750m
+              memory: 8Gi
+          ports:
+            - name: http
+              containerPort: 5000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /status
+              port: http
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          volumeMounts:
+            - mountPath: /output
+              name: azure-ai-data
+          automountServiceAccountToken: false
+          args:
+            - "Logging:Console:LogLevel:Default=Debug"
+      volumes:
+        - name: azure-ai-data
+          emptyDir: {}
+
+---
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: language
+    namespace: azure-ai-demo
+  spec:
+    ports:
+      - name: http
+        port: 80
+        protocol: TCP
+        targetPort: 5000
+    selector:
+      app: language
+
+---
+
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: language
+  namespace: azure-ai-demo
+spec:
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: language
+    weight: 100
+  wildcardPolicy: None
